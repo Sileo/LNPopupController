@@ -332,7 +332,8 @@ LNPopupCloseButtonStyle _LNPopupResolveCloseButtonStyleFromCloseButtonStyle(LNPo
     } else {
         _popupShadowView.alpha = percent > 0 ? 1 : 0;
         _popupScreenshotView.center = _containerController.view.center;
-        _popupScreenshotView.transform = CGAffineTransformMakeScale(1.0 - (0.15 * percent), 1.0 - (0.15 * percent));
+        CGFloat maxScale = (20.0 + [[UIApplication sharedApplication] statusBarFrame].size.height/2.0) / _popupScreenshotView.bounds.size.width;
+        _popupScreenshotView.transform = CGAffineTransformMakeScale(1.0 - (maxScale * percent), 1.0 - (maxScale * percent));
     }
     
     if (self.popupBar.isInlineWithTabBar){
