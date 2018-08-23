@@ -420,7 +420,7 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 		if(allowBarAlpha && resolvedStyle == LNPopupInteractionStyleSnap)
 		{
 			CGRect frame = self.popupBar.frame;
-			frame.size.height = state < LNPopupPresentationStateTransitioning ? _LNPopupBarHeightForBarStyle(_LNPopupResolveBarStyleFromBarStyle(self.popupBar.barStyle), self.popupBar.customBarViewController) : 0.0;
+			frame.size.height = state < LNPopupPresentationStateTransitioning ? _LNPopupBarHeightForBarStyle(_LNPopupResolveBarStyleFromBarStyle(self.popupBar.barStyle), self.popupBar.isInlineWithTabBar, self.popupBar.customBarViewController) : 0.0;
 			self.popupBar.frame = frame;
 			self.popupBar.alpha = state < LNPopupPresentationStateTransitioning;
 		}
@@ -1201,7 +1201,7 @@ static void __LNPopupControllerDeeplyEnumerateSubviewsUsingBlock(UIView* view, v
 		[self _setContentToState:LNPopupPresentationStateClosed];
 		
 		CGRect barFrame = self.popupBar.frame;
-		barFrame.size.height = _LNPopupBarHeightForBarStyle(_LNPopupResolveBarStyleFromBarStyle(self.popupBar.barStyle), self.popupBar.customBarViewController);
+		barFrame.size.height = _LNPopupBarHeightForBarStyle(_LNPopupResolveBarStyleFromBarStyle(self.popupBar.barStyle), self.popupBar.isInlineWithTabBar, self.popupBar.customBarViewController);
 		self.popupBar.frame = barFrame;
 		
 		[_containerController.view layoutIfNeeded];
@@ -1374,7 +1374,7 @@ static void __LNPopupControllerDeeplyEnumerateSubviewsUsingBlock(UIView* view, v
 {
 	CGRect barFrame = self.popupBar.frame;
 	CGFloat currentHeight = barFrame.size.height;
-	barFrame.size.height = _LNPopupBarHeightForBarStyle(_LNPopupResolveBarStyleFromBarStyle(self.popupBar.barStyle), self.popupBar.customBarViewController);
+	barFrame.size.height = _LNPopupBarHeightForBarStyle(_LNPopupResolveBarStyleFromBarStyle(self.popupBar.barStyle), self.popupBar.isInlineWithTabBar, self.popupBar.customBarViewController);
 	barFrame.origin.y -= (barFrame.size.height - currentHeight);
 	self.popupBar.frame = barFrame;
 }

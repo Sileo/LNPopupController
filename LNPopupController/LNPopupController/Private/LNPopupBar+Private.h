@@ -11,7 +11,7 @@
 extern const CGFloat LNPopupBarHeightCompact;
 extern const CGFloat LNPopupBarHeightProminent;
 
-extern CGFloat _LNPopupBarHeightForBarStyle(LNPopupBarStyle style, LNPopupCustomBarViewController* customBarVC);
+extern CGFloat _LNPopupBarHeightForBarStyle(LNPopupBarStyle style, BOOL inlineWithTabBar, LNPopupCustomBarViewController* customBarVC);
 extern LNPopupBarStyle _LNPopupResolveBarStyleFromBarStyle(LNPopupBarStyle style);
 
 @protocol _LNPopupBarDelegate <NSObject>

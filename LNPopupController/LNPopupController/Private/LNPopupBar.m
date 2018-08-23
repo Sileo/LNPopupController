@@ -96,6 +96,7 @@
 
 const CGFloat LNPopupBarHeightCompact = 40.0;
 const CGFloat LNPopupBarHeightProminent = 64.0;
+const CGFloat LNPopupBarHeightTabBarInline = 49.0;
 const CGFloat LNPopupBarProminentImageWidth = 48.0;
 
 const NSInteger LNBackgroundStyleInherit = -1;
@@ -122,10 +123,13 @@ const NSInteger LNBackgroundStyleInherit = -1;
     NSArray<__kindof NSLayoutConstraint *> * _progressViewVerticalConstraints;
 }
 
-CGFloat _LNPopupBarHeightForBarStyle(LNPopupBarStyle style, LNPopupCustomBarViewController* customBarVC)
+CGFloat _LNPopupBarHeightForBarStyle(LNPopupBarStyle style, BOOL inlineWithTabBar, LNPopupCustomBarViewController* customBarVC)
 {
 	if(customBarVC) { return customBarVC.preferredContentSize.height; }
 	
+    if (inlineWithTabBar)
+        return LNPopupBarHeightTabBarInline;
+    
 	return style == LNPopupBarStyleCompact ? LNPopupBarHeightCompact : LNPopupBarHeightProminent;
 }
 
@@ -311,7 +315,7 @@ static UIBlurEffectStyle _LNBlurEffectStyleForSystemBarStyle(UIBarStyle systemBa
 	[self _layoutImageView];
 	
 	[UIView performWithoutAnimation:^{
-		_toolbar.frame = CGRectMake(0, 0, self.bounds.size.width, _LNPopupBarHeightForBarStyle(_resolvedStyle, _customBarViewController));
+		_toolbar.frame = CGRectMake(0, 0, self.bounds.size.width, _LNPopupBarHeightForBarStyle(_resolvedStyle, self.isInlineWithTabBar, _customBarViewController));
 		[_toolbar layoutIfNeeded];
 		
 		[self bringSubviewToFront:_highlightView];
@@ -844,7 +848,7 @@ static UIBlurEffectStyle _LNBlurEffectStyleForSystemBarStyle(UIBarStyle systemBa
 	
 	CGRect titleLabelFrame = _titlesView.bounds;
 	
-	CGFloat barHeight = _LNPopupBarHeightForBarStyle(_resolvedStyle, _customBarViewController);
+	CGFloat barHeight = _LNPopupBarHeightForBarStyle(_resolvedStyle, self.isInlineWithTabBar, _customBarViewController);
 	titleLabelFrame.size.height = barHeight;
 	if(_subtitle.length > 0)
 	{
