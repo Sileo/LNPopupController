@@ -269,6 +269,10 @@ LNPopupCloseButtonStyle _LNPopupResolveCloseButtonStyleFromCloseButtonStyle(LNPo
 - (CGRect)_frameForOpenPopupBar
 {
 //	CGRect defaultFrame = [_containerController defaultFrameForBottomDockingView_internalOrDeveloper];
+    if (self.popupBar.isInlineWithTabBar){
+        UIEdgeInsets insets = [_containerController insetsForBottomDockingView];
+        return CGRectMake(insets.left, - self.popupBar.frame.size.height, _containerController.view.bounds.size.width - (insets.left + insets.right), self.popupBar.frame.size.height);
+    }
 	return CGRectMake(0, - self.popupBar.frame.size.height, _containerController.view.bounds.size.width, self.popupBar.frame.size.height);
 }
 
@@ -276,7 +280,7 @@ LNPopupCloseButtonStyle _LNPopupResolveCloseButtonStyleFromCloseButtonStyle(LNPo
 {
 	CGRect defaultFrame = [_containerController defaultFrameForBottomDockingView_internalOrDeveloper];
 	UIEdgeInsets insets = [_containerController insetsForBottomDockingView];
-	return CGRectMake(0, defaultFrame.origin.y - self.popupBar.frame.size.height - insets.bottom, _containerController.view.bounds.size.width, self.popupBar.frame.size.height);
+	return CGRectMake(insets.left, defaultFrame.origin.y - self.popupBar.frame.size.height - insets.bottom + insets.top, _containerController.view.bounds.size.width - (insets.left + insets.right), self.popupBar.frame.size.height);
 }
 
 - (void)_repositionPopupContentMovingBottomBar:(BOOL)bottomBar
@@ -289,8 +293,10 @@ LNPopupCloseButtonStyle _LNPopupResolveCloseButtonStyleFromCloseButtonStyle(LNPo
 	if(bottomBar)
 	{
 		CGRect bottomBarFrame = _cachedDefaultFrame;
-		bottomBarFrame.origin.y -= _cachedInsets.bottom;
-		bottomBarFrame.origin.y += (percent * (bottomBarFrame.size.height + _cachedInsets.bottom));
+        if (!self.popupBar.isInlineWithTabBar){
+            bottomBarFrame.origin.y -= _cachedInsets.bottom;
+            bottomBarFrame.origin.y += (percent * (bottomBarFrame.size.height + _cachedInsets.bottom));
+        }
 		_bottomBar.frame = bottomBarFrame;
 	}
 	
