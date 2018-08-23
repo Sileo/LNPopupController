@@ -927,7 +927,11 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 		
 		if([[NSProcessInfo processInfo] operatingSystemVersion].majorVersion >= 10)
 		{
-			self.popupBar.systemShadowColor = [_bottomBar valueForKeyPath:str2];
+            UIColor *color = [_bottomBar valueForKeyPath:str2];
+            if (color)
+                self.popupBar.systemShadowColor = color;
+            else
+                self.popupBar.systemShadowColor = [UIColor colorWithWhite:0 alpha:0.29];
 		}
 		else
 		{
