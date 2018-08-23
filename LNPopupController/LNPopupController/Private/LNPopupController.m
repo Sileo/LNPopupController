@@ -306,12 +306,13 @@ LNPopupCloseButtonStyle _LNPopupResolveCloseButtonStyleFromCloseButtonStyle(LNPo
 	CGRect contentFrame = _containerController.view.bounds;
 	contentFrame.origin.x = self.popupBar.frame.origin.x;
 	contentFrame.origin.y = self.popupBar.frame.origin.y + self.popupBar.frame.size.height;
+    contentFrame.size.width = self.popupBar.frame.size.width;
 	
 	CGFloat fractionalHeight = MAX(heightForContent - (self.popupBar.frame.origin.y + self.popupBar.frame.size.height), 0);
 	contentFrame.size.height = ceil(fractionalHeight);
 	
 	self.popupContentView.frame = contentFrame;
-	_containerController.popupContentViewController.view.frame = _containerController.view.bounds;
+	_containerController.popupContentViewController.view.frame = self.popupContentView.bounds;
 	
 	[self _repositionPopupCloseButton];
 }
