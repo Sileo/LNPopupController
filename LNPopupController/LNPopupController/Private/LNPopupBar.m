@@ -116,7 +116,6 @@ const NSInteger LNBackgroundStyleInherit = -1;
 	UIColor* _userBackgroundColor;
 	
 	UIBlurEffectStyle _actualBackgroundStyle;
-	UIBlurEffect* _customBlurEffect;
 	
 	UIView* _shadowView;
     UIView* _separatorView;
@@ -351,10 +350,6 @@ static UIBlurEffectStyle _LNBlurEffectStyleForSystemBarStyle(UIBarStyle systemBa
 	_userBackgroundStyle = backgroundStyle;
 	
 	_actualBackgroundStyle = _userBackgroundStyle == LNBackgroundStyleInherit ? _LNBlurEffectStyleForSystemBarStyle(_systemBarStyle, _resolvedStyle) : _userBackgroundStyle;
-
-	_customBlurEffect = [UIBlurEffect effectWithStyle:_actualBackgroundStyle];
-	
-	[_backgroundView setValue:_customBlurEffect forKey:@"effect"];
 	
 	if(_userBackgroundStyle == LNBackgroundStyleInherit)
 	{

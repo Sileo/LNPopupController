@@ -146,7 +146,7 @@ static const CGFloat LNPopupBarDeveloperPanGestureThreshold = 0;
 
 @property (nonatomic, strong, readwrite) UIPanGestureRecognizer* popupInteractionGestureRecognizer;
 @property (nonatomic, strong, readwrite) LNPopupCloseButton* popupCloseButton;
-@property (nonatomic, strong) UIVisualEffectView* effectView;
+@property (nonatomic, strong) UIView* contentView;
 
 @end
 
@@ -158,10 +158,10 @@ static const CGFloat LNPopupBarDeveloperPanGestureThreshold = 0;
 	
 	if(self)
 	{
-		_effectView = [[UIVisualEffectView alloc] initWithEffect:nil];
-		_effectView.frame = self.bounds;
-		_effectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		[self addSubview:_effectView];
+		_contentView = [[UIView alloc] initWithFrame:CGRectZero];
+		_contentView.frame = self.bounds;
+		_contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		[self addSubview:_contentView];
         
         _popupCloseButtonMoveForNavigationBars = YES;
 	}
@@ -173,17 +173,12 @@ static const CGFloat LNPopupBarDeveloperPanGestureThreshold = 0;
 {
 	[super layoutSubviews];
 	
-	_effectView.frame = self.bounds;
+	_contentView.frame = self.bounds;
 }
 
 - (UIView *)contentView
 {
-	return _effectView.contentView;
-}
-
-- (void)setEffect:(UIVisualEffect*)effect
-{
-	[_effectView setEffect:effect];
+    return _contentView;
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -421,7 +416,6 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 			if(CGColorGetAlpha(_currentContentController.view.backgroundColor.CGColor) < 1.0)
 			{
 				//Support for iOS8, where this property was exposed as readonly.
-				[self.popupContentView setValue:[UIBlurEffect effectWithStyle:self.popupBar.backgroundStyle] forKey:@"effect"];
 				if(self.popupContentView.popupCloseButton.style == LNPopupCloseButtonStyleRound)
 				{
 					self.popupContentView.popupCloseButton.layer.shadowOpacity = 0.2;
@@ -429,7 +423,6 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
 			}
 			else
 			{
-				[self.popupContentView setValue:nil forKey:@"effect"];
 				if(self.popupContentView.popupCloseButton.style == LNPopupCloseButtonStyleRound)
 				{
 					self.popupContentView.popupCloseButton.layer.shadowOpacity = 0.1;
