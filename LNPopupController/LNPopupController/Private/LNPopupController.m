@@ -302,8 +302,7 @@ LNPopupCloseButtonStyle _LNPopupResolveCloseButtonStyleFromCloseButtonStyle(LNPo
 		_bottomBar.frame = bottomBarFrame;
 	}
 	
-	[self.popupBar.toolbar setAlpha:1.0 - percent];
-	[self.popupBar.progressView setAlpha:1.0 - percent];
+	[self.popupBar setAlpha:1.0 - percent];
     
     _popupShadowView.alpha = percent;
     if (percent > 0){
@@ -322,7 +321,25 @@ LNPopupCloseButtonStyle _LNPopupResolveCloseButtonStyleFromCloseButtonStyle(LNPo
 	
 	self.popupContentView.frame = contentFrame;
     _popupShadowView.frame = _containerController.view.bounds;
-	_containerController.popupContentViewController.view.frame = self.popupContentView.bounds;
+    if (self.popupBar.isInlineWithTabBar){
+        _containerController.popupContentViewController.view.frame = self.popupContentView.bounds;
+    } else {
+        CGFloat offset = [UIApplication sharedApplication].statusBarFrame.size.height + 15;
+        CGRect frame = self.popupContentView.bounds;
+        frame.origin.y += (offset * percent);
+        frame.size.height -= (offset * percent);
+        if (frame.size.height < 0)
+            frame.size.height = 0;
+        CAShapeLayer *maskLayer = (CAShapeLayer *)_containerController.popupContentViewController.view.layer.mask;
+        if (!maskLayer){
+            maskLayer = [CAShapeLayer layer];
+            _containerController.popupContentViewController.view.layer.mask = maskLayer;
+        }
+        _containerController.popupContentViewController.view.frame = frame;
+        
+        maskLayer.frame = _containerController.popupContentViewController.view.bounds;
+        maskLayer.path = [UIBezierPath bezierPathWithRoundedRect:maskLayer.frame byRoundingCorners:(UIRectCornerTopLeft | UIRectCornerTopRight) cornerRadii:CGSizeMake(10, 10)].CGPath;
+    }
 	
 	[self _repositionPopupCloseButton];
 }
@@ -1033,6 +1050,10 @@ static CGFloat __smoothstep(CGFloat a, CGFloat b, CGFloat x)
             _popupCloseButtonTopConstraint.constant += CGRectGetHeight(possibleBar.bounds);
         else
             _popupCloseButtonTopConstraint.constant += 6;
+    } else {
+        if (!_popupBar.isInlineWithTabBar){
+            _popupCloseButtonTopConstraint.constant = _containerController.popupContentViewController.view.frame.origin.y + 12;
+        }
     }
 	
 	if(startingTopConstant != _popupCloseButtonTopConstraint.constant)
