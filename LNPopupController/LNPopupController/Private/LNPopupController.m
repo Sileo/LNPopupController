@@ -338,10 +338,14 @@ LNPopupCloseButtonStyle _LNPopupResolveCloseButtonStyleFromCloseButtonStyle(LNPo
     }
     
     if (self.popupBar.isInlineWithTabBar){
-        _containerController.popupContentViewController.view.frame = self.popupContentView.bounds;
+        CGRect frame = self.popupContentView.bounds;
+        frame.size.height = MAX(_containerController.view.bounds.size.height, 0);
+        _containerController.popupContentViewController.view.frame = frame;
     } else {
         CGFloat offset = [UIApplication sharedApplication].statusBarFrame.size.height + 15;
         CGRect frame = self.popupContentView.bounds;
+        frame.size.height = MAX(_containerController.view.bounds.size.height, 0);
+        
         frame.origin.y += (offset * percent);
         frame.size.height -= (offset * percent);
         if (frame.size.height < 0)
