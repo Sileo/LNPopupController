@@ -818,10 +818,10 @@ static UIBlurEffectStyle _LNBlurEffectStyleForSystemBarStyle(UIBarStyle systemBa
 			paragraph.lineBreakMode = NSLineBreakByTruncatingTail;
 		}
 		
-		NSMutableDictionary* defaultTitleAttribures = [@{NSParagraphStyleAttributeName: paragraph, NSFontAttributeName: _resolvedStyle == LNPopupBarStyleProminent ? [UIFont systemFontOfSize:18 weight:UIFontWeightRegular] : [UIFont systemFontOfSize:12]} mutableCopy];
+		NSMutableDictionary* defaultTitleAttribures = [@{NSParagraphStyleAttributeName: paragraph, NSFontAttributeName: _resolvedStyle == LNPopupBarStyleProminent ? [UIFont systemFontOfSize:13 weight:UIFontWeightRegular] : [UIFont systemFontOfSize:12]} mutableCopy];
 		[defaultTitleAttribures addEntriesFromDictionary:_titleTextAttributes];
 		
-		NSMutableDictionary* defaultSubtitleAttribures = [@{NSParagraphStyleAttributeName: paragraph, NSFontAttributeName: _resolvedStyle == LNPopupBarStyleProminent ? [UIFont systemFontOfSize:14 weight:UIFontWeightRegular] : [UIFont systemFontOfSize:12]} mutableCopy];
+		NSMutableDictionary* defaultSubtitleAttribures = [@{NSParagraphStyleAttributeName: paragraph, NSFontAttributeName: _resolvedStyle == LNPopupBarStyleProminent ? [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold] : [UIFont systemFontOfSize:12]} mutableCopy];
 		[defaultSubtitleAttribures addEntriesFromDictionary:_subtitleTextAttributes];
 		
 		BOOL reset = NO;
@@ -866,6 +866,9 @@ static UIBlurEffectStyle _LNBlurEffectStyleForSystemBarStyle(UIBarStyle systemBa
 		{
 			titleLabelFrame.origin.y -= _titleLabel.font.lineHeight / 2.1;
 			subtitleLabelFrame.origin.y += _subtitleLabel.font.lineHeight / 1.5;
+            
+            titleLabelFrame.origin.y -= 2;
+            subtitleLabelFrame.origin.y -= 4;
 		}
 		else
 		{
