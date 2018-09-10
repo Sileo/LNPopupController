@@ -867,7 +867,10 @@ static UIBlurEffectStyle _LNBlurEffectStyleForSystemBarStyle(UIBarStyle systemBa
 			titleLabelFrame.origin.y -= _titleLabel.font.lineHeight / 2.1;
 			subtitleLabelFrame.origin.y += _subtitleLabel.font.lineHeight / 1.5;
             
-            titleLabelFrame.origin.y -= 2;
+            if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+                titleLabelFrame.origin.y -= 2;
+            else
+                titleLabelFrame.origin.y -= 4;
             subtitleLabelFrame.origin.y -= 4;
 		}
 		else
