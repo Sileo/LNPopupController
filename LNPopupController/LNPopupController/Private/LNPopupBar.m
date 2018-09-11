@@ -870,7 +870,7 @@ static UIBlurEffectStyle _LNBlurEffectStyleForSystemBarStyle(UIBarStyle systemBa
             if (_isInlineWithTabBar)
                 titleLabelFrame.origin.y -= 2;
             else
-                titleLabelFrame.origin.y -= 4;
+                titleLabelFrame.origin.y -= 5;
             subtitleLabelFrame.origin.y -= 4;
 		}
 		else
