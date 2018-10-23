@@ -125,8 +125,8 @@
 - (void)_setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
 	dispatch_block_t alphaBlock = ^{
-		_highlightView.alpha = highlighted ? 1.0 : 0.0;
-		_highlightView.alpha = highlighted ? 1.0 : 0.0;
+		self->_highlightView.alpha = highlighted ? 1.0 : 0.0;
+		self->_highlightView.alpha = highlighted ? 1.0 : 0.0;
 	};
 	
 	if (animated) {
